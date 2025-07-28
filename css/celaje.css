@@ -1,0 +1,1814 @@
+/* Reset y Variables CSS */
+:root {
+    --primary-color: #674e82; /* Morado Oscuro */
+    --primary-light: #8b6ba3; /* Morado Claro */
+    --primary-dark: #523d68; /* Morado Más Oscuro */
+    --secondary-color: #f8f9fa; /* Gris Claro */
+    --accent-color: #ff6b35; /* Naranja Brillante */
+    --text-dark: #2c3e50; /* Gris Oscuro para texto principal */
+    --text-light: #6c757d; /* Gris Medio para texto secundario */
+    --white: #ffffff; /* Blanco Puro */
+    --border-color: #e9ecef; /* Color de borde suave */
+    --shadow: 0 2px 10px rgba(0,0,0,0.1); /* Sombra estándar */
+    --shadow-hover: 0 5px 20px rgba(0,0,0,0.15); /* Sombra para hover */
+    --border-radius: 8px; /* Radio de borde global */
+    --transition: all 0.3s ease; /* Transición general */
+
+    /* Variables específicas para el header si quieres diferenciarlos de primary/accent */
+    --header-bg-color: var(--primary-color);
+    --header-text-color: var(--white);
+    --toggle-color: var(--white); /* Color para las líneas de la hamburguesa */
+}
+
+/* Base global reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--text-dark);
+    background-color: var(--white);
+    overflow-x: hidden; /* Previene el scroll horizontal no deseado */
+}
+
+/* Clase para controlar el scroll del body cuando el menú móvil está abierto */
+body.menu-open {
+    overflow: hidden !important; /* !important para asegurar que sobrescribe cualquier otra regla */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ============================ HEADER STYLES ============================ */
+.main-header {
+    background: var(--header-bg-color);
+    color: var(--header-text-color);
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* Asegura que el header esté siempre visible */
+    box-shadow: var(--shadow);
+    padding: 15px 20px; /* Asegura un padding consistente */
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px; /* Asegura el ancho máximo del contenido del header */
+    margin: 0 auto;
+    flex-wrap: wrap; /* Permite que los elementos se envuelvan en pantallas pequeñas */
+    gap: 15px; /* Espacio entre los elementos del header */
+}
+
+/* Mobile Menu Toggle (Botón Hamburguesa) */
+.mobile-menu-toggle {
+    display: flex; /* Por defecto se muestra en móvil */
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 24px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1010; /* Asegura que esté por encima de todo */
+}
+
+.mobile-menu-toggle span {
+    display: block; /* Asegura que cada span sea un bloque */
+    width: 30px;
+    height: 3px;
+    background: var(--toggle-color);
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.3s ease; /* Transición para la animación de 'X' */
+    transform-origin: left center; /* Para la animación de rotación */
+}
+
+/* Animación del botón hamburguesa cuando el menú está activo (controlado por JS) */
+.main-nav.active + .mobile-overlay + .mobile-menu-toggle span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+.main-nav.active + .mobile-overlay + .mobile-menu-toggle span:nth-child(2) {
+    opacity: 0;
+}
+.main-nav.active + .mobile-overlay + .mobile-menu-toggle span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+}
+
+/* Logo */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--header-text-color);
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+.logo i {
+    font-size: 1.8rem;
+}
+/* El .logo-text se ocultará/mostrará con media queries */
+
+
+/* Search Bar */
+.search-container {
+    flex: 1; /* Permite que ocupe espacio */
+    /* Eliminado max-width aquí para permitir que se extienda más en desktop */
+    position: relative; /* Para las sugerencias de búsqueda */
+}
+
+.search-form {
+    display: flex;
+    background: var(--white);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.search-input {
+    flex: 1;
+    padding: 12px 15px;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    color: var(--text-dark); /* Color de texto en el input */
+}
+
+.search-btn {
+    background: var(--primary-light);
+    border: none;
+    padding: 12px 15px;
+    color: var(--white);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.search-btn:hover {
+    background: var(--primary-dark);
+}
+
+.search-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 1001; /* Por encima del contenido, pero debajo del menú si está abierto */
+    display: none; /* Controlado por JS */
+}
+
+.suggestion-item {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--text-dark);
+}
+
+.suggestion-item:last-child {
+    border-bottom: none; /* Elimina el borde del último ítem */
+}
+
+.suggestion-item:hover {
+    background: var(--secondary-color);
+}
+
+
+/* User Actions (Login/User Dropdown/Cart) */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-dropdown {
+    position: relative;
+}
+
+.user-btn, .login-btn, .cart-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    color: var(--header-text-color);
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+    text-decoration: none;
+    white-space: nowrap; /* Evita que el texto se rompa */
+    position: relative; /* ¡Añadido para el posicionamiento del contador del carrito! */
+}
+
+.user-btn:hover, .login-btn:hover, .cart-btn:hover {
+    background: rgba(255,255,255,0.1);
+}
+/* El user-name se ocultará/mostrará con media queries */
+
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%; /* Justo debajo del botón */
+    right: 0; /* Alineado a la derecha del botón */
+    background: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    min-width: 200px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px); /* Ligeramente hacia abajo */
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+    z-index: 10; /* Por encima de otros elementos si se superponen */
+}
+
+.user-dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0); /* Se desliza a su posición */
+}
+
+.dropdown-menu a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 15px;
+    color: var(--text-dark);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border-color);
+    transition: var(--transition);
+}
+.dropdown-menu a:last-child {
+    border-bottom: none; /* Elimina el borde inferior del último elemento */
+}
+.dropdown-menu a:hover {
+    background: var(--secondary-color);
+}
+
+.cart-count {
+    position: absolute;
+    top: -5px; /* Ajusta la posición vertical según necesites */
+    right: -5px; /* Ajusta la posición horizontal según necesites */
+    background: var(--accent-color);
+    color: var(--white);
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex; /* Para centrar el número */
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+    /* Por defecto, si es 0, el JS lo ocultará */
+}
+
+
+/*Corazón*/
+
+.wishlist-container {
+    position: relative;
+    margin-right: 15px;
+}
+
+.wishlist-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--header-text-color);
+    text-decoration: none;
+    font-size: 1.2rem;
+    position: relative;
+}
+
+.wishlist-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: var(--accent-color);
+    color: var(--white);
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+/* Ajustar espaciado en el header */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Estilos para el botón de favoritos en las tarjetas de producto */
+.btn-wishlist {
+    background: none;
+    border: none;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-wishlist.active {
+    color: var(--accent-color);
+}
+
+.btn-wishlist i {
+    font-size: 1.2rem;
+}
+
+
+/* ============================ NAVIGATION MENU (MÓVIL POR DEFECTO) ============================ */
+.main-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 300px; /* Ancho del menú lateral */
+    height: 100vh;
+    background: var(--primary-color);
+    z-index: 1002; /* Por encima del overlay, pero debajo del toggle */
+    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    overflow-y: auto; /* Para scroll si el contenido es largo */
+    transform: translateX(-100%); /* Inicialmente fuera de la pantalla */
+    will-change: transform;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.2); /* Sombra para el efecto de deslizamiento */
+}
+
+.main-nav.active {
+    transform: translateX(0); /* Desliza a la vista (activado por JS) */
+    box-shadow: 0 0 20px rgba(0,0,0,0.3); /* Sombra más pronunciada al abrir */
+}
+
+.mobile-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1001; /* Debajo del menú, por encima del contenido */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    pointer-events: none; /* No intercepta clics cuando está oculto */
+}
+
+.mobile-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto; /* Intercepta clics cuando está activo */
+}
+
+.nav-container {
+    padding: 20px;
+}
+
+.nav-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+.nav-header h3 {
+    color: var(--white);
+    font-size: 1.2rem;
+}
+
+.nav-close {
+    background: none;
+    border: none;
+    color: var(--white);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.nav-menu {
+    list-style: none;
+    padding: 0; /* Asegura que no haya padding por defecto */
+}
+
+.nav-menu li {
+    margin-bottom: 5px;
+}
+
+.nav-menu a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--white);
+    text-decoration: none;
+    padding: 12px 15px;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+}
+
+.nav-menu a:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.nav-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.2);
+    margin: 15px 0;
+}
+
+/* ============================ HERO BANNER ============================ */
+.hero-banner {
+    position: relative;
+    height: 500px;
+    overflow: hidden; /* Asegura que las imágenes no se salgan */
+}
+
+.banner-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.banner-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.banner-slide.active {
+    opacity: 1;
+}
+
+.banner-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.banner-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: var(--white);
+    z-index: 2;
+    padding: 20px; /* Padding para el contenido */
+}
+
+.banner-content::before {
+    content: '';
+    position: absolute;
+    top: 0; /* Ajustado para que el fondo no se desborde del padding */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.4);
+    border-radius: var(--border-radius);
+    z-index: -1;
+}
+
+.banner-content h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.banner-content p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.btn-cta {
+    display: inline-block;
+    background: var(--accent-color);
+    color: var(--white);
+    padding: 15px 30px;
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    font-weight: bold;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+}
+
+.btn-cta:hover {
+    background: #e55a2b; /* Un color ligeramente más oscuro para hover */
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.banner-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.5);
+    border: none;
+    color: var(--white);
+    padding: 15px 20px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    transition: var(--transition);
+    border-radius: var(--border-radius); /* Un poco de border-radius */
+}
+
+.banner-nav:hover {
+    background: rgba(0,0,0,0.7);
+}
+
+.banner-nav.prev {
+    left: 20px;
+}
+
+.banner-nav.next {
+    right: 20px;
+}
+
+.banner-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.5);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.dot.active {
+    background: var(--white);
+}
+
+/* ============================ FEATURED PRODUCTS ============================ */
+.featured-products {
+    padding: 80px 0;
+    background: var(--secondary-color);
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.section-header h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-dark);
+}
+
+.section-header p {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.category-card {
+    background: var(--white);
+    padding: 30px;
+    border-radius: var(--border-radius);
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+.category-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 2rem;
+    color: var(--white);
+}
+
+.category-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: var(--text-dark);
+}
+
+.category-card p {
+    color: var(--text-light);
+    margin-bottom: 20px;
+}
+
+.category-products {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.mini-product {
+    text-align: center;
+}
+
+.mini-product img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+    margin-bottom: 5px;
+}
+
+.mini-product span {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.category-link {
+    display: inline-block;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: 2px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+}
+
+.category-link:hover {
+    background: var(--primary-color);
+    color: var(--white);
+}
+
+/* ============================ CTA SECTION ============================ */
+.cta-section {
+    padding: 80px 0;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    color: var(--white);
+    text-align: center;
+}
+
+.cta-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.cta-content p {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-primary, .btn-secondary {
+    display: inline-block;
+    padding: 15px 30px;
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    font-weight: bold;
+    transition: var(--transition);
+    white-space: nowrap; /* Evita que el texto se rompa en botones */
+}
+
+.btn-primary {
+    background: var(--accent-color);
+    color: var(--white);
+}
+
+.btn-primary:hover {
+    background: #e55a2b; /* Color de hover para el botón primario */
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--white);
+    border: 2px solid var(--white);
+}
+
+.btn-secondary:hover {
+    background: var(--white);
+    color: var(--primary-color);
+}
+
+/* ============================ FOOTER ============================ */
+.main-footer {
+    position: relative;
+    background: var(--primary-color);
+    color: var(--white);
+    overflow: hidden; /* Para contener las estrellas */
+}
+
+.stars-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+#starsCanvas {
+    width: 100%;
+    height: 100%;
+    display: block; /* Para eliminar el espacio extra debajo del canvas */
+}
+
+.footer-content {
+    position: relative;
+    z-index: 2;
+    padding: 60px 0 20px;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+}
+
+.footer-section h3, .footer-section h4 {
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+}
+
+.footer-section p {
+    line-height: 1.6;
+    opacity: 0.9;
+    margin-bottom: 20px;
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    color: var(--white);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.social-link:hover {
+    background: var(--accent-color);
+    transform: translateY(-2px);
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0; /* Asegura que no haya padding por defecto */
+}
+
+.footer-links li {
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    color: var(--white);
+    text-decoration: none;
+    opacity: 0.9;
+    transition: var(--transition);
+}
+
+.footer-links a:hover {
+    opacity: 1;
+    color: var(--accent-color);
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.contact-item i {
+    width: 20px;
+    color: var(--accent-color);
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.2);
+    padding: 20px 0;
+    margin-top: 40px;
+}
+
+.footer-bottom .footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 0 20px; /* Asegura padding en el bottom footer */
+}
+
+.footer-bottom-links {
+    display: flex;
+    gap: 20px;
+}
+
+.footer-bottom-links a {
+    color: var(--white);
+    text-decoration: none;
+    opacity: 0.9;
+    transition: var(--transition);
+}
+
+.footer-bottom-links a:hover {
+    opacity: 1;
+}
+
+
+/* ============================ HELP TOOLTIP ============================ */
+.help-tooltip {
+    position: absolute;
+    background: var(--text-dark);
+    color: var(--white);
+    padding: 10px 15px;
+    border-radius: var(--border-radius);
+    font-size: 0.9rem;
+    max-width: 250px;
+    z-index: 1003;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+    pointer-events: none; /* No bloquea clics al estar oculto */
+}
+
+.help-tooltip.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.tooltip-arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid var(--text-dark);
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* ============================ NOTIFICATION STYLES ============================ */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 300px;
+    z-index: 2001; /* Alto z-index para que esté por encima de todo */
+    transform: translateX(100%); /* Inicialmente fuera de la pantalla */
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out; /* Transición para aparecer/desaparecer */
+    opacity: 0; /* Inicialmente oculto */
+}
+
+.notification.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.notification-success {
+    border-left: 4px solid #28a745; /* Verde */
+}
+
+.notification-error {
+    border-left: 4px solid #dc3545; /* Rojo */
+}
+
+.notification-info {
+    border-left: 4px solid #17a2b8; /* Azul */
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-dark); /* Color de texto dentro de la notificación */
+}
+.notification-content i {
+    font-size: 1.2rem;
+}
+
+
+.notification-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-light);
+    font-size: 1rem;
+    margin-left: 15px; /* Espacio entre el contenido y el botón de cerrar */
+}
+
+
+/* ============================ FORM VALIDATION & LOADING STATES ============================ */
+.form-group input.error,
+.form-group select.error,
+.form-group textarea.error {
+    border-color: #dc3545; /* Rojo para error */
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+}
+
+.loading {
+    opacity: 0.6;
+    pointer-events: none; /* Deshabilita interacciones mientras carga */
+}
+
+.spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255,255,255,.3);
+    border-radius: 50%;
+    border-top-color: var(--white); /* El color que anima */
+    animation: spin 1s ease-in-out infinite;
+    vertical-align: middle; /* Para alinear con el texto si está en línea */
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ============================ FORM STYLES ============================ */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(103, 78, 130, 0.1);
+}
+
+.error-message {
+    background: #fee;
+    color: #c33;
+    padding: 15px;
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+    border-left: 4px solid #c33;
+}
+
+.success-message {
+    background: #efe;
+    color: #363;
+    padding: 15px;
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+    border-left: 4px solid #363;
+}
+
+.info-message {
+    background: #e7f3ff;
+    color: #0066cc;
+    padding: 15px;
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+    border-left: 4px solid #0066cc;
+}
+
+/* ============================ MODAL STYLES (FROM JS, MOVED HERE) ============================ */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* JavaScript añade 'show' para mostrar */
+.modal-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 500px;
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+    padding: 20px;
+    max-height: 90vh; /* Limita la altura para evitar desbordamiento */
+    overflow-y: auto; /* Permite scroll dentro del modal si el contenido es largo */
+}
+.modal-overlay.show .modal-content {
+    transform: translateY(0);
+}
+
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--text-dark);
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+.modal-close:hover {
+    color: var(--text-dark);
+}
+
+.modal-body {
+    padding-bottom: 20px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+}
+
+/* Styles for .btn-secondary within modal context */
+.modal-actions .btn-secondary {
+    background: var(--secondary-color);
+    color: var(--text-dark);
+    border: 1px solid var(--border-color);
+}
+.modal-actions .btn-secondary:hover {
+    background: #e9ecef;
+    color: var(--text-dark);
+}
+
+/* ============================ LAZY LOADING IMAGES ============================ */
+.lazy {
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.lazy.loaded {
+    opacity: 1;
+}
+
+
+/* ============================ QUICK VIEW MODAL STYLES (MODIFIED) ============================ */
+/* Contenedor principal del modal de vista rápida (el overlay oscuro) */
+#quickViewModal { /* Asumiendo un ID para el modal principal, o usar una clase si es lo que usas en JS */
+    display: none !important; /* CRÍTICO: oculta el modal por defecto y fuerza la ocultación */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    /* display: flex;  Ya no es necesario si siempre está oculto */
+    align-items: center;
+    justify-content: center;
+    z-index: 2000; /* Asegura que esté por encima de todo, similar a .modal-overlay */
+}
+
+/* El cuadro de contenido específico de la vista rápida */
+.quick-view-info { /* Asumiendo una clase para el div que contiene la info del producto en el modal */
+    background: var(--white);
+    padding: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-hover);
+    max-width: 900px;
+    width: 90%;
+    position: relative;
+    overflow-y: auto;
+    max-height: 90vh;
+}
+
+/* El contenedor específico que viste en la inspección: Colores y Botón de Carrito */
+#quickViewAddCart {
+    display: none !important; /* AÑADIDO !important para forzar la ocultación */
+    background: var(--primary-color);
+    color: var(--white);
+    padding: 12px 20px;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* Asumiendo que hay un contenedor para los colores dentro de la vista rápida */
+#quickViewColors { /* Si este es el ID del contenedor de colores de la vista rápida */
+    display: none !important; /* AÑADIDO !important para forzar la ocultación */
+    /* Puedes añadir aquí estilos específicos para los colores si son diferentes a los de la tarjeta normal */
+}
+
+
+/* ============================ RESPONSIVE DESIGN ============================ */
+
+/* MOBILE STYLES (Aplicado para pantallas de hasta 768px) */
+@media (max-width: 768px) {
+    .header-container {
+        /* Reordena los elementos para un layout móvil más lógico */
+        grid-template-columns: auto 1fr auto; /* Toggle | Logo | User/Cart (simplificado) */
+        grid-template-rows: auto auto; /* Una fila para lo de arriba, otra para la búsqueda */
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap; /* Asegura que los elementos se envuelvan */
+    }
+
+    .mobile-menu-toggle {
+        display: flex; /* Mostrar el botón de hamburguesa */
+        grid-column: 1;
+        grid-row: 1;
+        margin-right: 15px; /* Espacio entre la hamburguesa y el logo */
+    }
+
+    .header-left {
+        grid-column: 2;
+        grid-row: 1;
+        flex-grow: 1; /* Permite que el logo ocupe el espacio restante */
+        text-align: center; /* Centra el logo */
+    }
+    .logo-text {
+        display: none; /* Oculta el texto del logo en móvil para ahorrar espacio */
+    }
+
+    .header-right {
+        grid-column: 3;
+        grid-row: 1;
+        margin-left: auto; /* Empuja a la derecha */
+        margin-right: 0;
+        gap: 10px; /* Reduce el espacio entre iconos en móvil */
+    }
+    .user-name {
+        display: none; /* Oculta el nombre de usuario para ahorrar espacio */
+    }
+
+    .search-container {
+        grid-column: 1 / span 3; /* Ocupa las 3 columnas en la segunda fila */
+        grid-row: 2;
+        width: 100%; /* Ocupa todo el ancho disponible */
+        margin-top: 15px; /* Espacio entre la primera y segunda fila */
+        max-width: none; /* Elimina el max-width de desktop */
+    }
+
+    /* Ajustes generales de texto para móvil */
+    .banner-content h1 {
+        font-size: 2rem;
+    }
+    .banner-content p {
+        font-size: 1rem;
+    }
+    .section-header h2,
+    .cta-content h2 {
+        font-size: 2rem;
+    }
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    .footer-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    .footer-section p, .footer-links a, .contact-item {
+        text-align: center;
+        justify-content: center; /* Centra los items de contacto también */
+    }
+    .social-links {
+        justify-content: center;
+    }
+    .footer-bottom .footer-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    .footer-bottom-links {
+        justify-content: center;
+    }
+}
+
+/* SMALL MOBILE DEVICES (MÁS PEQUEÑO QUE 480px) */
+@media (max-width: 480px) {
+    .container {
+        padding: 0 15px;
+    }
+    .main-header {
+        padding: 10px 15px; /* Reduce el padding del header */
+    }
+    .header-container {
+        padding: 0; /* Ya no se necesita padding aquí, el header ya lo tiene */
+        gap: 10px;
+    }
+
+    .mobile-menu-toggle {
+        width: 25px; /* Hace la hamburguesa un poco más pequeña */
+        height: 20px;
+    }
+    .mobile-menu-toggle span {
+        width: 25px;
+        height: 2px; /* Líneas más finas */
+    }
+
+    .logo {
+        font-size: 1.2rem; /* Logo más pequeño */
+    }
+    .logo i {
+        font-size: 1.5rem;
+    }
+
+    .user-btn, .login-btn, .cart-btn {
+        padding: 6px 10px; /* Botones más pequeños */
+        font-size: 0.9rem;
+    }
+    .cart-count {
+        width: 18px; /* Contador más pequeño */
+        height: 18px;
+        font-size: 0.7rem;
+        top: -3px;
+        right: -3px;
+    }
+
+    .search-input, .search-btn {
+        padding: 10px 12px; /* Input de búsqueda más compacto */
+    }
+
+    .main-nav {
+        width: 250px; /* Menú lateral más estrecho */
+    }
+    .nav-container {
+        padding: 15px; /* Padding reducido en el menú lateral */
+    }
+    .nav-menu a {
+        padding: 10px 12px; /* Enlaces del menú más compactos */
+        font-size: 0.95rem;
+    }
+
+    .banner-content h1 {
+        font-size: 1.8rem; /* Título del banner más pequeño */
+    }
+
+    .categories-grid {
+        grid-template-columns: 1fr; /* Una columna para las tarjetas */
+    }
+    .category-card {
+        padding: 20px;
+    }
+
+    .btn-cta, .btn-primary, .btn-secondary {
+        padding: 12px 25px; /* Botones CTA más pequeños */
+        font-size: 0.95rem;
+    }
+}
+
+/* DESKTOP STYLES (Aplicado para pantallas de 769px en adelante) */
+@media (min-width: 769px) {
+    /* Ocultar elementos móviles en desktop */
+    .mobile-menu-toggle,
+    .mobile-overlay {
+        display: none !important; /* Esconde el botón hamburguesa y el overlay */
+    }
+    
+    .logo-text {
+        display: block; /* Asegura que el texto del logo esté visible */
+    }
+    .user-name {
+        display: inline; /* Muestra el nombre de usuario */
+    }
+
+    /* Reorganizar el header-container para desktop usando Grid */
+    .header-container {
+        display: grid;
+        grid-template-columns: auto 1fr auto auto; /* Logo | Nav (ocupa espacio restante) | Search | User/Cart */
+        gap: 25px; /* Espacio entre las columnas */
+        align-items: center;
+        flex-wrap: nowrap; /* Evita que los elementos se envuelvan */
+        padding: 1rem 0; /* Padding ajustado para desktop, usa el contenedor */
+    }
+
+    .header-left {
+        grid-column: 1; /* Coloca el logo en la primera columna */
+    }
+
+    /* La clave: el main-nav ahora es el menú de escritorio */
+    .main-nav {
+        grid-column: 2; /* Coloca la navegación en la segunda columna */
+        position: static; /* Ya no es fijo, se integra en el flujo normal */
+        transform: translateX(0); /* Siempre visible */
+        width: auto; /* Ancho automático */
+        height: auto; /* Altura automática */
+        background: transparent; /* Sin fondo de menú lateral */
+        box-shadow: none; /* Sin sombra */
+        z-index: auto; /* Restablecer z-index */
+        display: flex; /* Para que los enlaces se muestren horizontalmente */
+        justify-content: flex-start; /* Alinea los enlaces a la izquierda */
+        margin: 0; /* Elimina márgenes de móvil */
+        padding: 0; /* Elimina paddings de móvil */
+    }
+
+    .main-nav .nav-container {
+        padding: 0; /* Eliminar padding del contenedor móvil */
+        width: 100%; /* Asegurar que ocupe el espacio disponible */
+    }
+
+    .main-nav .nav-header {
+        display: none; /* Ocultar el encabezado del menú móvil ("Menú", botón cerrar) */
+    }
+
+    .main-nav .nav-menu {
+        display: flex; /* Muestra los enlaces horizontalmente */
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        gap: 25px; /* Espacio entre los enlaces del menú principal */
+    }
+
+    .main-nav .nav-menu li {
+        margin-bottom: 0; /* No hay margen vertical en escritorio */
+    }
+
+    .main-nav .nav-menu a {
+        color: var(--header-text-color); /* Color de texto para enlaces de escritorio */
+        padding: 8px 12px; /* Padding ajustado para enlaces de escritorio */
+        background-color: transparent; /* Sin fondo por defecto */
+        font-weight: 500; /* Un poco más de peso para legibilidad */
+    }
+    .main-nav .nav-menu a:hover {
+        background-color: rgba(255,255,255,0.1); /* Efecto hover simple */
+    }
+    .nav-menu i {
+        display: none; /* Oculta los iconos de los elementos del menú en escritorio */
+    }
+    .nav-divider {
+        display: none; /* Oculta el divisor en escritorio */
+    }
+
+    .search-container {
+        grid-column: 3; /* La barra de búsqueda va en la tercera columna */
+        order: unset; /* Quitar el orden de móvil */
+        width: auto; /* Vuelve a su ancho normal */
+        margin-top: 0; /* Elimina el margen superior */
+        min-width: 350px; /* ¡Aumentado a 350px para hacerla más larga! */
+        max-width: 600px; /* ¡Aumentado a 600px para permitir más expansión! */
+    }
+
+    .header-right {
+        grid-column: 4; /* Las acciones de usuario/carrito van en la cuarta columna */
+    }
+    /* Asegura que el footer-container también use el ancho máximo en desktop */
+    .footer-bottom .footer-container {
+        flex-direction: row;
+    }
+}
+
+
+/* ============================ ANIMATION CLASSES ============================ */
+.fade-in {
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+.slide-up {
+    animation: slideUp 0.6s ease-out;
+}
+
+.bounce {
+    animation: bounce 0.6s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { 
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+/* ============================ QUICK VIEW MODAL STYLES (MODIFIED) ============================ */
+/* Contenedor principal del modal de vista rápida (el overlay oscuro) */
+#quickViewModal { /* Asumiendo un ID para el modal principal, o usar una clase si es lo que usas en JS */
+    display: none !important; /* CRÍTICO: oculta el modal por defecto y fuerza la ocultación */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    /* display: flex;  Ya no es necesario si siempre está oculto */
+    align-items: center;
+    justify-content: center;
+    z-index: 2000; /* Asegura que esté por encima de todo, similar a .modal-overlay */
+}
+
+/* El cuadro de contenido específico de la vista rápida */
+.quick-view-info { /* Asumiendo una clase para el div que contiene la info del producto en el modal */
+    background: var(--white);
+    padding: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-hover);
+    max-width: 900px;
+    width: 90%;
+    position: relative;
+    overflow-y: auto;
+    max-height: 90vh;
+}
+
+/* El contenedor específico que viste en la inspección: Colores y Botón de Carrito */
+#quickViewAddCart {
+    display: none !important; /* AÑADIDO !important para forzar la ocultación */
+    background: var(--primary-color);
+    color: var(--white);
+    padding: 12px 20px;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* Asumiendo que hay un contenedor para los colores dentro de la vista rápida */
+#quickViewColors { /* Si este es el ID del contenedor de colores de la vista rápida */
+    display: none !important; /* AÑADIDO !important para forzar la ocultación */
+    /* Puedes añadir aquí estilos específicos para los colores si son diferentes a los de la tarjeta normal */
+}
+
+/* Styles for the modal overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* Modal content box */
+.modal-content {
+    background: white;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: translateY(-20px);
+    animation: slideUp 0.3s ease-out forwards;
+}
+
+/* Modal header with title and close button */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+/* Close button for the modal */
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #6c757d;
+}
+
+/* Modal body for form elements */
+.modal-body {
+    padding: 20px;
+}
+
+/* Actions section within the modal (e.g., buttons) */
+.modal-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+/* Notification styling */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 300px;
+    z-index: 2001;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-out;
+}
+
+/* Show notification animation */
+.notification.show {
+    transform: translateX(0);
+}
+
+/* Specific styles for success notification */
+.notification-success {
+    border-left: 4px solid #28a745; /* Green */
+}
+
+/* Specific styles for error notification */
+.notification-error {
+    border-left: 4px solid #dc3545; /* Red */
+}
+
+/* Specific styles for info notification */
+.notification-info {
+    border-left: 4px solid #17a2b8; /* Blue */
+}
+
+/* Content within the notification */
+.notification-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Close button for notification */
+.notification-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #6c757d;
+}
+
+/* Help icon for tooltips */
+.help-icon {
+    margin-left: 5px;
+    color: #6c757d;
+    cursor: help;
+}
+
+/* Styles for form fields with validation errors */
+.form-group input.error,
+.form-group select.error {
+    border-color: #dc3545; /* Red border for errors */
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1); /* Light red shadow */
+}
+
+/* Lazy loading image initial state */
+.lazy {
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+/* Lazy loading image loaded state */
+.lazy.loaded {
+    opacity: 1;
+}
+
+/* Animations for hamburger button spans */
+.mobile-menu-toggle span {
+    transition: all 0.3s ease;
+    transform-origin: left center;
+}
+
+/* Keyframe animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(-20px); }
+    to { transform: translateY(0); }
+}
+
+/* Spinner for loading states */
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #fff; /* or your primary color */
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Notificaciones */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: white;
+    color: #333;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    border-left: 4px solid #17a2b8;
+    z-index: 2000;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.notification.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.notification-success {
+    border-left-color: #28a745;
+}
+
+.notification-error {
+    border-left-color: #dc3545;
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #6c757d;
+}
+
+/* Pestañas de perfil */
+.tab-btn {
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    border-bottom: 3px solid transparent;
+}
+
+.tab-btn.active {
+    border-bottom-color: #674e82;
+    font-weight: bold;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Tarjetas de pedido */
+.order-card {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: box-shadow 0.3s;
+}
+
+.order-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.status-badge {
+    display: inline-block;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
